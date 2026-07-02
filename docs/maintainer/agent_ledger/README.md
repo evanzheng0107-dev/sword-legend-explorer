@@ -17,7 +17,7 @@ development and human maintainers.
 | `DECISIONS.md` | When context is needed on *why* | When a significant decision is made | Key product/technical/safety decisions with rationale |
 | `ERRORS.md` | When diagnosing a recurring issue | When an error/regression is found and fixed | Symptoms, detection, fix, regression test |
 | `RELEASE_PLAN.md` | When planning a release | When release scope changes | Version plan, required items, release notes drafts |
-| `CODEX_OSS_APPLICATION.md` | When preparing the application | Continuously, as evidence accumulates | Codex for Open Source application draft |
+| `PROJECT_SUMMARY.md` | When reviewing project status | When project state changes | Project status overview and metrics |
 
 ## Usage Convention
 
