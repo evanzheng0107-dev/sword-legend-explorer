@@ -86,7 +86,7 @@ REQUIRED_FILES = [
     ("mkdocs.yml", False, "MkDocs documentation site config"),
     (".readthedocs.yaml", False, "ReadTheDocs configuration"),
     # Maintainer docs
-    ("docs/maintainer/CODEX_OSS_APPLICATION.md", True, "Codex OSS application draft"),
+    ("docs/maintainer/PROJECT_SUMMARY.md", True, "Project summary"),
     ("docs/maintainer/RELEASE_PLAN.md", True, "Release plan"),
     ("docs/maintainer/agent_ledger/README.md", True, "Maintenance ledger guide"),
     ("docs/maintainer/agent_ledger/SESSION_START.md", True, "Session start context"),

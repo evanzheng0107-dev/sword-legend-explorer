@@ -38,7 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `config/demo.yaml` + `examples/visual_grid_world/config.yaml`.
 - **Assets moved** from `assets/demo/` to `examples/visual_grid_world/assets/`.
 - **Maintainer docs moved** from `docs/agent_ledger/` to
-  `docs/maintainer/agent_ledger/`. CODEX_OSS_APPLICATION and RELEASE_PLAN
+  `docs/maintainer/agent_ledger/`. PROJECT_SUMMARY and RELEASE_PLAN
   moved to `docs/maintainer/`.
 - **Tests split** into `tests/unit/`, `tests/integration/`, `tests/smoke/`.
 - **All imports** changed from flat (`from fsm import`) to package
@@ -101,7 +101,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Maintenance ledger** (`docs/agent_ledger/`) - 7 tracking files for
   cross-session context continuity: SESSION_START, NEXT, PROGRESS,
   DECISIONS (D001–D006), ERRORS (E001–E002, R001–R002), RELEASE_PLAN,
-  CODEX_OSS_APPLICATION. README rewritten as directory guide.
+  PROJECT_SUMMARY. README rewritten as directory guide.
 - **scripts/oss_readiness_check.py** - Enhanced with high-risk wording
   scan (Chinese zero-tolerance + English negative-context exemption),
   `--run-tests` option, and structured output (file check, risky words,

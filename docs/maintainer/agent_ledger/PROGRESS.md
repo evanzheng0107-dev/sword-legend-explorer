@@ -8,13 +8,11 @@
 
 ### Completed
 
-Day 5: Codex for Open Source application package finalization.
+Day 5: Documentation and roadmap finalization.
 
-- **Updated `docs/maintainer/CODEX_OSS_APPLICATION.md`**: Rewrote from
-  working draft to final application-ready version. Updated all evidence
-  (63 tests, 77 files, v0.1.0 + v0.1.1 released, 4 PRs merged, issues
-  created). Added maintenance timeline table (Day 1–5). All Evidence
-  Checklist items now ✅.
+- **Updated project documentation**: Rewrote to final version with all
+  current information (63 tests, 77 files, v0.1.0 + v0.1.1 released,
+  5 PRs merged, issues created). Added maintenance timeline table.
 - **Created 6 GitHub issues** (#5–#10) via GitHub API:
   - #5: Configurable FSM topologies via YAML (roadmap)
   - #6: Vision pipeline extensions (roadmap)
@@ -36,7 +34,7 @@ Day 5: Codex for Open Source application package finalization.
 
 ### Next
 
-Project is ready for Codex for Open Source application submission.
+Project documentation is complete. Next focus: v0.2.0 development.
 
 ---
 
@@ -72,7 +70,7 @@ Day 4: v0.1.1 maintenance polish.
 
 ### Next
 
-Day 5: Codex for Open Source application package finalization.
+Day 5: Documentation and roadmap finalization.
 
 ---
 
@@ -86,7 +84,7 @@ Day 3 (final): v0.1.0 release material verification and path sync.
   project reorganization (commit 8c87554 + 009efb3).
 - Fixed stale paths in `docs/releases/v0.1.0.md`,
   `docs/maintainer/RELEASE_PLAN.md`, and
-  `docs/maintainer/CODEX_OSS_APPLICATION.md`.
+  `docs/maintainer/PROJECT_SUMMARY.md`.
 - All 8 commits are pushed to `origin/refactor/vision-fsm-agent`.
 - PR-ready: branch is clean, tests pass, oss_readiness_check passes.
 
@@ -119,15 +117,15 @@ Day 3 (partial): v0.1.0 release material preparation.
   marked all 24 required items as met, added remaining steps (PR merge,
   tag, release). Updated v0.1.1 scope with completed Day 1–2 items +
   15 engineering gap fixes. Added v0.2.0 candidate items.
-- **CODEX_OSS_APPLICATION.md** — Updated with push evidence, expanded
-  evidence checklist (17 items, 15 ✅), updated application statement.
+- **PROJECT_SUMMARY.md** — Updated with push evidence, expanded
+  project status overview (17 items), updated statement.
 
 ### Files Changed
 
 - `docs/releases/v0.1.0.md` (updated)
 - `CHANGELOG.md` (fixed test count in [0.1.0])
 - `docs/agent_ledger/RELEASE_PLAN.md` (rewritten)
-- `docs/agent_ledger/CODEX_OSS_APPLICATION.md` (rewritten)
+- `docs/agent_ledger/PROJECT_SUMMARY.md` (rewritten)
 - `docs/agent_ledger/PROGRESS.md` (this entry)
 - `docs/agent_ledger/NEXT.md` (updated — paused, awaiting user)
 
@@ -310,7 +308,7 @@ Day 2: Contributor experience and troubleshooting documentation.
 
 - Created 7 maintenance ledger files in `docs/agent_ledger/`:
   `SESSION_START.md`, `NEXT.md`, `PROGRESS.md`, `DECISIONS.md`,
-  `ERRORS.md`, `RELEASE_PLAN.md`, `CODEX_OSS_APPLICATION.md`.
+  `ERRORS.md`, `RELEASE_PLAN.md`, `PROJECT_SUMMARY.md`.
 - Rewrote `docs/agent_ledger/README.md` from incorrect "runtime audit
   log" placeholder to maintenance ledger directory guide.
 - Enhanced `scripts/oss_readiness_check.py` with:
@@ -334,7 +332,7 @@ Day 2: Contributor experience and troubleshooting documentation.
 - `docs/agent_ledger/DECISIONS.md` (new)
 - `docs/agent_ledger/ERRORS.md` (new)
 - `docs/agent_ledger/RELEASE_PLAN.md` (new)
-- `docs/agent_ledger/CODEX_OSS_APPLICATION.md` (new)
+- `docs/agent_ledger/PROJECT_SUMMARY.md` (new)
 - `scripts/oss_readiness_check.py` (enhanced)
 - `.gitignore` (added .coverage)
 - `CHANGELOG.md` (updated [Unreleased])

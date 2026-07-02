@@ -12,31 +12,29 @@ automation tool.
 
 ## Current Goal
 
-Prepare the repository as an active open-source project for Codex for
-Open Source application by maintaining it for 3–5 days with real issues,
-PR-ready commits, changelog updates, tests, release notes, and safety
-documentation.
+Maintain and grow the repository as an active open-source project with
+real issues, PR-ready commits, changelog updates, tests, release notes,
+and safety documentation.
 
 ## Maintenance Cycle
 
-3–5 days, structured as:
+Ongoing, structured as work rounds:
 
-| Day | Focus |
-|-----|-------|
-| 0 | Repository preparation, topics, first issues |
+| Phase | Focus |
+|-------|-------|
 | 1 | README and demo clarity |
 | 2 | Contributor experience and troubleshooting |
 | 3 | v0.1.0 release materials |
 | 4 | v0.1.1 maintenance polish |
-| 5 | Codex application package |
+| 5 | Documentation and roadmap finalization |
 
 ## Must Read
 
 1. `README.md`
 2. `AGENTS.md`
 3. `docs/safety-boundaries.md`
-4. `docs/agent_ledger/NEXT.md`
-5. `docs/agent_ledger/DECISIONS.md`
+4. `docs/maintainer/agent_ledger/NEXT.md`
+5. `docs/maintainer/agent_ledger/DECISIONS.md`
 6. `CHANGELOG.md` (especially `[Unreleased]`)
 
 ## Safety Rules
@@ -51,7 +49,7 @@ documentation.
 
 ## Done Criteria (per round)
 
-- `pytest tests/ -q` passes (currently 50 tests)
+- `pytest tests/ -q` passes (currently 63 tests)
 - `python scripts/oss_readiness_check.py` passes
 - No risky wording regression (Chinese zero-tolerance; English
   negative-context exempted)
@@ -65,7 +63,7 @@ documentation.
 pytest tests/ -q
 
 # Run demo
-python demo_app/visual_grid_world.py --steps 20
+python examples/visual_grid_world/run_demo.py --steps 20
 
 # Run OSS readiness check
 python scripts/oss_readiness_check.py
