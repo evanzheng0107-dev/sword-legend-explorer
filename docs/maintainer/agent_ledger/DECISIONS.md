@@ -15,8 +15,8 @@ controlled demos, research, and education. It is not a game bot, cheating
 tool, anti-detection tool, or third-party platform automation tool.
 
 **Rationale**: The project was refactored from a game-specific prototype.
-The new positioning ensures it is safe for public release and eligible
-for open-source program applications.
+The new positioning ensures it is safe for public release and aligns with
+open-source community standards.
 
 ---
 
