@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   being tracked.
 - **`examples/visual_grid_world/assets/README.md`** — Fixed stale path
   reference after package reorganization.
+- **README.md** — Restructured for better first-time user experience:
+  merged Quick Demo and Quick Start into one clear section, fixed table of
+  contents, updated demo output to match current format, added Next Steps
+  links, cleaned up section numbering.
+- **`docs/demo.md`** — Updated expected output to match actual demo output.
+- **`examples/visual_grid_world/README.md`** — Updated expected output format.
 
 ## [0.1.1] - 2026-07-02
 

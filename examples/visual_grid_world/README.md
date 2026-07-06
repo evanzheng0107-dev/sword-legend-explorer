@@ -27,11 +27,13 @@ buttons — all driven by real template matching and FSM transitions.
 
 ## Expected Output
 
+35 steps with default seed completes all objectives:
+
 ```
 [demo] World: 12x12, goals=[(3, 2), (6, 5)], items=3, buttons=1
-  step   1 | fsm=IDLE  pos=(1, 1) | items[...] buttons[.]
+  step   1 | fsm=IDLE     pos=(1, 1) | items[...] buttons[.]
   ...
-  step  19 | fsm=IDLE  pos=(3,10) | items[III] buttons[B]
+  step  19 | fsm=IDLE     pos=(3,10) | items[III] buttons[B]
 [demo] All items collected and buttons pressed. Done!
 ```
 
