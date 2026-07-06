@@ -64,29 +64,24 @@ uses to render frames, guaranteeing template matching succeeds.
 
 ## Expected Output
 
-A successful run looks like this:
+A successful run (35 steps, default seed) completes all objectives:
 
 ```
 [demo] Loaded 3 templates
 [demo] World: 12x12, goals=[(3, 2), (6, 5)], items=3, buttons=1
 [demo] Running 35 steps...
 
-  step   1 | fsm=IDLE  pos=(1, 1) | items[...] buttons[.]
-  step   2 | fsm=IDLE  pos=(2, 2) | items[...] buttons[.]
-  step   3 | fsm=IDLE  pos=(3, 3) | items[...] buttons[.]
-  step   4 | fsm=IDLE  pos=(4, 4) | items[...] buttons[.]
-  step   5 | fsm=IDLE  pos=(4, 4) | items[I..] buttons[.]
-  step   6 | fsm=IDLE  pos=(3, 5) | items[I..] buttons[.]
+  step   1 | fsm=IDLE     pos=(1, 1) | items[...] buttons[.]
+  step   2 | fsm=IDLE     pos=(2, 2) | items[...] buttons[.]
+  step   3 | fsm=IDLE     pos=(3, 2) | items[...] buttons[.]
   ...
-  step  13 | fsm=IDLE  pos=(3,10) | items[III] buttons[.]
+  step  13 | fsm=IDLE     pos=(3,10) | items[III] buttons[.]
   ...
-  step  19 | fsm=IDLE  pos=(3,10) | items[III] buttons[B]
+  step  19 | fsm=IDLE     pos=(3,10) | items[III] buttons[B]
 
 [demo] All items collected and buttons pressed. Done!
 
-[demo] Final status: {'agent_pos': (3, 10), 'step_count': 19,
-  'items_collected': 3, 'items_total': 3,
-  'buttons_pressed': 1, 'buttons_total': 1, 'done': True}
+[demo] Final status: done=True, items_collected=3/3, buttons_pressed=1/1
 ```
 
 **Reading the progress bar:**

@@ -20,10 +20,11 @@
 6. [Architecture](#6-architecture)
 7. [FSM States](#7-fsm-states)
 8. [HIL Workflow](#8-hil-workflow)
-9. [Testing](#9-testing)
-10. [Safety Boundaries](#10-safety-boundaries)
-11. [Roadmap](#11-roadmap)
-12. [Contributing](#12-contributing)
+9. [Development Setup](#9-development-setup)
+10. [Testing](#10-testing)
+11. [Safety Boundaries](#11-safety-boundaries)
+12. [Roadmap](#12-roadmap)
+13. [Contributing](#13-contributing)
 
 ---
 
@@ -34,14 +35,14 @@ three classic automation building blocks:
 
 | Building block | Module | What it does |
 |---|---|---|
-| **Computer Vision** | `src/vision_fsm_agent/vision.py` | Multi-scale OpenCV template matching with configurable thresholds |
-| **Finite-State Machine** | `src/vision_fsm_agent/fsm.py` | Generic FSM with guards, actions, callbacks, and transition history |
-| **Human-in-the-Loop** | `src/vision_fsm_agent/hil/` | HTTP-based correction channel so a human can override the agent in real time |
+| **Computer Vision** | `vision_fsm_agent.vision` | Multi-scale OpenCV template matching with configurable thresholds |
+| **Finite-State Machine** | `vision_fsm_agent.fsm` | Generic FSM with guards, actions, callbacks, and transition history |
+| **Human-in-the-Loop** | `vision_fsm_agent.hil` | HTTP-based correction channel so a human can override the agent in real time |
 
-These are wired together by a generic **agent loop** (`src/vision_fsm_agent/main.py`) that
-drives an **Environment** — an interface you can implement for any target.
-The project ships with a **synthetic demo environment** so you can run the
-entire pipeline with zero external setup.
+These are wired together by a generic **agent loop** (`vision_fsm_agent.main`)
+that drives an **Environment** — an interface you can implement for any
+target. The project ships with a **synthetic demo environment** so you can
+run the entire pipeline with zero external setup.
 
 ## 2. Who is it for?
 
@@ -66,12 +67,12 @@ This project is **not** intended for:
 The default demo runs against a **local synthetic environment** — it does
 not capture your screen, send input to external software, or access the
 network (except the optional local HIL server). See
-[Safety Boundaries](#10-safety-boundaries) and
+[Safety Boundaries](#11-safety-boundaries) and
 [`docs/safety-boundaries.md`](docs/safety-boundaries.md).
 
-## 4. Quick Demo
+## 4. Quick Start
 
-**30 seconds to see the agent in action** — no game, no screen capture, no
+**Run the demo in under a minute** — no game, no screen capture, no
 external software required:
 
 ```bash
@@ -79,45 +80,50 @@ git clone https://github.com/evanzheng0107-dev/vision-fsm-agent.git
 cd vision-fsm-agent
 pip install -r requirements.txt
 python scripts/generate_demo_assets.py
-python examples/visual_grid_world/run_demo.py --steps 20
+python examples/visual_grid_world/run_demo.py --steps 15
 ```
 
-Expected output (the agent navigates, collects items, presses buttons):
+You should see output like:
 
 ```
 [demo] World: 12x12, goals=[(3, 2), (6, 5)], items=3, buttons=1
-  step   1 | fsm=IDLE  pos=(1, 1) | items[...] buttons[.]
+[demo] Running 15 steps...
+
+  step   1 | fsm=IDLE     pos=(1, 1) | items[...] buttons[.]
+  step   2 | fsm=IDLE     pos=(2, 2) | items[...] buttons[.]
+  step   3 | fsm=IDLE     pos=(3, 2) | items[...] buttons[.]
   ...
-  step  19 | fsm=IDLE  pos=(3,10) | items[III] buttons[B]
-[demo] All items collected and buttons pressed. Done!
+  step   8 | fsm=IDLE     pos=(7, 2) | items[...] buttons[B]
+  ...
+  step  15 | fsm=IDLE     pos=(3, 8) | items[I..] buttons[B]
+
+[demo] Final status: done=False, items_collected=1/3, buttons_pressed=1/1
 ```
 
-> See [`docs/demo.md`](docs/demo.md) for a detailed walkthrough of what
-> each step does and how to configure the demo.
-
-## 5. Quick Start
-
-```bash
-# 1. Clone
-git clone https://github.com/evanzheng0107-dev/vision-fsm-agent.git
-cd vision-fsm-agent
-
-# 2. Create a virtual environment and install dependencies
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-# 3. Generate the synthetic demo assets (programmatic, no downloads)
-python scripts/generate_demo_assets.py
-
-# 4. Run the demo
-python examples/visual_grid_world/run_demo.py --steps 20
-```
-
-You should see the agent navigate a grid world, collect items, and press
+The agent navigates a 12×12 grid world, collecting items and pressing
 buttons — all driven by real template matching and FSM transitions.
 
-### Using the launcher
+### More thorough setup
+
+If you plan to develop or contribute, install with dev dependencies:
+
+```bash
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -e ".[dev]"
+pre-commit install
+```
+
+Then use the Makefile for common tasks:
+
+```bash
+make test      # Run the test suite (63 tests)
+make demo      # Run the demo
+make lint      # Run the linter
+make check     # Run the readiness check
+```
+
+### Launcher
 
 ```bash
 python run.py --start            # demo mode (default)
@@ -125,7 +131,14 @@ python run.py --start --steps 30 # specify step count
 python run.py --hil              # start the HIL correction server
 ```
 
-## 6. Demo Environment
+### Next steps
+
+- [`docs/demo.md`](docs/demo.md) — detailed demo walkthrough and configuration
+- [`examples/custom_fsm/`](examples/custom_fsm/) — build your own FSM topology
+- [`docs/architecture.md`](docs/architecture.md) — framework architecture deep dive
+- [`docs/troubleshooting.md`](docs/troubleshooting.md) — common issues and solutions
+
+## 5. Demo Environment
 
 The demo (`examples/visual_grid_world/run_demo.py`) is a **fully synthetic,
 headless, reproducible** environment:
@@ -136,29 +149,25 @@ headless, reproducible** environment:
 - **Buttons** (blue squares) — interactable elements
 - An **agent** (red diamond) that moves, collects, and interacts
 
-Each frame is rendered using the **same drawing primitives** that
-generate the template images in `examples/visual_grid_world/assets/`. This guarantees that
-template matching actually finds the elements — making the demo a genuine
-end-to-end test of the vision pipeline.
+Each frame uses the **same drawing primitives** that generate the template
+images in `examples/visual_grid_world/assets/`. This guarantees that template
+matching actually finds the elements — making the demo a genuine end-to-end
+test of the vision pipeline.
 
 The world is **deterministic** given the same seed (`demo_seed: 42` by
-default), so runs are reproducible.
-
-```
-[demo] World: 12x12, goals=[(3, 2), (6, 5)], items=3, buttons=1
-  step   1 | fsm=IDLE  pos=(1, 1) | items[...] buttons[.]
-  ...
-  step  19 | fsm=IDLE  pos=(3,10) | items[III] buttons[B]
-[demo] All items collected and buttons pressed. Done!
-```
-
-Save frames as PNGs for inspection:
+default), so runs are reproducible. Edit
+`examples/visual_grid_world/config.yaml` to change the grid size, random seed,
+or confidence threshold.
 
 ```bash
+# Save frames as PNGs for inspection
 python examples/visual_grid_world/run_demo.py --save demo_frames --steps 20
+
+# Generate fresh template assets
+python scripts/generate_demo_assets.py
 ```
 
-## 7. Architecture
+## 6. Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -170,18 +179,18 @@ python examples/visual_grid_world/run_demo.py --save demo_frames --steps 20
 └─────────────────────────────────────────────────────────────┘
                               ↓ frame (np.ndarray)
 ┌─────────────────────────────────────────────────────────────┐
-│                   Vision Layer (vision_fsm_agent/vision.py)               │
+│                   Vision Layer (vision)                      │
 │        Multi-scale template matching (OpenCV)                │
 │        TemplateManager → MatchResult[]                       │
 └─────────────────────────────────────────────────────────────┘
                               ↓ match results
 ┌─────────────────────────────────────────────────────────────┐
-│                   FSM Layer (vision_fsm_agent/fsm.py)                      │
+│                   FSM Layer (fsm)                            │
 │   IDLE ↔ MOVE ↔ PICKUP ↔ INTERACT ↔ WAIT ↔ EXPLORE         │
 └─────────────────────────────────────────────────────────────┘
                               ↓ events
 ┌─────────────────────────────────────────────────────────────┐
-│                Decision Layer (vision_fsm_agent/agent.py)                  │
+│                Decision Layer (agent)                        │
 │   ┌──────────────────┐      ┌──────────────────────┐        │
 │   │ LocalDecisionAgent│      │ CloudDecisionAgent   │        │
 │   │ (rule-based)      │      │ (LLM, optional)      │        │
@@ -189,7 +198,7 @@ python examples/visual_grid_world/run_demo.py --save demo_frames --steps 20
 └─────────────────────────────────────────────────────────────┘
                               ↓ action
 ┌─────────────────────────────────────────────────────────────┐
-│              HIL Layer (vision_fsm_agent/hil/)   │
+│              HIL Layer (hil)                                 │
 │        Human corrections over HTTP (Flask)                   │
 │        get_correction → apply → send_correction (learn)     │
 └─────────────────────────────────────────────────────────────┘
@@ -199,7 +208,7 @@ python examples/visual_grid_world/run_demo.py --save demo_frames --steps 20
 
 See [`docs/architecture.md`](docs/architecture.md) for a deep dive.
 
-## 8. FSM States
+## 7. FSM States
 
 The demo agent uses the following state machine:
 
@@ -212,10 +221,11 @@ The demo agent uses the following state machine:
 | `WAIT` | Pausing (scene settling / retry budget) | `INTERACT_DONE`, `TOO_MANY_FAILURES` | `READY` |
 | `EXPLORE` | Blind exploration (no targets) | `NO_TARGET`, `LOST_TARGET` | `EXPLORED`, `FOUND_TARGET` |
 
-The FSM is fully configurable — see `src/vision_fsm_agent/main.py::build_demo_fsm()` and
-`src/vision_fsm_agent/fsm.py` for how to define your own topology.
+The FSM is fully configurable — see `vision_fsm_agent.main::build_demo_fsm()`
+and `vision_fsm_agent.fsm` for how to define your own topology. Also check
+out the custom FSM example at [`examples/custom_fsm/`](examples/custom_fsm/).
 
-## 9. HIL Workflow
+## 8. HIL Workflow
 
 Human-in-the-Loop (HIL) lets a human **override** the agent in real time:
 
@@ -231,9 +241,8 @@ Human-in-the-Loop (HIL) lets a human **override** the agent in real time:
 
 1. **Operator** pushes a correction (e.g. "click at x,y") via the HIL server.
 2. **Agent** polls for corrections each loop iteration.
-3. If a correction exists, the **agent applies it immediately** (e.g.
-   performs the click) and **forwards it to the decision agent** for
-   "learning" (recorded for later analysis).
+3. If a correction exists, the agent **applies it immediately** and
+   **forwards it to the decision agent** for "learning" (recorded for later analysis).
 4. Corrections support `click`, `stop`, and `reset` actions.
 
 Start the HIL server:
@@ -245,7 +254,7 @@ python run.py --hil
 
 See [`docs/hil-workflow.md`](docs/hil-workflow.md) for the full API.
 
-## 10. Development Setup
+## 9. Development Setup
 
 ### Quick setup with Make
 
@@ -285,16 +294,16 @@ environment (see [`.devcontainer/`](.devcontainer/devcontainer.json)).
 
 | Command | Description |
 |---------|-------------|
-| `make test` | Run pytest |
+| `make test` | Run pytest (63 tests) |
 | `make test-cov` | Run pytest with coverage |
 | `make demo` | Run the synthetic demo |
 | `make lint` | Run ruff linter |
-| `make check` | Run OSS readiness check |
+| `make check` | Run readiness check |
 | `make clean` | Remove build artifacts |
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full development guide.
 
-## 11. Testing
+## 10. Testing
 
 ```bash
 # Run the full test suite (no GUI, no network required)
@@ -315,14 +324,14 @@ The suite covers:
 CI runs automatically on every push and pull request via
 [GitHub Actions](.github/workflows/test.yml).
 
-## 12. Safety Boundaries
+## 11. Safety Boundaries
 
 > **This project is for local, controlled demo environments, research, and
 > education.**
 
 - It is **not** intended for cheating, botting, bypassing platform rules,
   or automating third-party services without permission.
-- The **default demo** runs against a local synthetic UI environment —
+- The **default demo** runs against a local synthetic environment —
   no screen capture, no external input, no network (except optional local
   HIL).
 - The optional **live mode** captures a screen region you explicitly
@@ -335,7 +344,7 @@ CI runs automatically on every push and pull request via
 See [`docs/safety-boundaries.md`](docs/safety-boundaries.md) for full
 details and [`SECURITY.md`](SECURITY.md) for vulnerability reporting.
 
-## 13. Roadmap
+## 12. Roadmap
 
 ### v0.1.x (current)
 - ✅ Core FSM + Vision + HIL framework
@@ -356,7 +365,7 @@ details and [`SECURITY.md`](SECURITY.md) for vulnerability reporting.
 - Performance benchmarking harness
 - Educational lab exercises
 
-## 14. Contributing
+## 13. Contributing
 
 Contributions are welcome! Please read [`CONTRIBUTING.md`](CONTRIBUTING.md)
 before opening a pull request.
@@ -365,7 +374,7 @@ before opening a pull request.
 - Tests must pass (`pytest tests/ -v`)
 - No game-specific content or anti-detection features
 - Keep the framework generic and the demo reproducible
-- Follow the [safety boundaries](#10-safety-boundaries)
+- Follow the [safety boundaries](#11-safety-boundaries)
 
 ### Project Structure
 
